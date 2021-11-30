@@ -497,7 +497,7 @@ impl Graph {
             }
         }
 
-        self.compute_result(&mut routes, &distance)
+        self.compute_result(&routes, &distance)
     }
 
     fn compute_result(&self, routes: &[u128], distance: &[i32]) -> HashMap<PeerId, Vec<PeerId>> {
