@@ -392,21 +392,15 @@ impl PeerManagerActor {
                     // We belong to this edge.
                     if self.active_peers.contains_key(other) {
                         // This is an active connection.
-                        match edge.edge_type() {
-                            EdgeType::Removed => {
-                                self.maybe_remove_connected_peer(ctx, edge.clone(), other);
-                            }
-                            _ => {}
+                        if edge.edge_type() == EdgeType::Removed {
+                            self.maybe_remove_connected_peer(ctx, edge.clone(), other);
                         }
                     } else {
-                        match edge.edge_type() {
-                            EdgeType::Added => {
-                                // We are not connected to this peer, but routing table contains
-                                // information that we do. We should wait and remove that peer
-                                // from routing table
-                                self.wait_peer_or_remove(ctx, edge.clone());
-                            }
-                            _ => {}
+                        if edge.edge_type() == EdgeType::Added {
+                            // We are not connected to this peer, but routing table contains
+                            // information that we do. We should wait and remove that peer
+                            // from routing table
+                            self.wait_peer_or_remove(ctx, edge.clone());
                         }
                     }
                 }

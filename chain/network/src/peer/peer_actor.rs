@@ -883,12 +883,11 @@ impl StreamHandler<Result<Vec<u8>, ReasonForBan>> for PeerActor {
                     ))
                     .into_actor(self)
                     .then(|res, act, ctx| {
-                        match res.map(|f| f.into_inner().as_peer_response()) {
-                            Ok(PeerResponse::UpdatedEdge(edge_info)) => {
-                                act.edge_info = Some(edge_info);
-                                act.send_handshake(ctx);
-                            }
-                            _ => {}
+                        if let Ok(PeerResponse::UpdatedEdge(edge_info)) =
+                            res.map(|f| f.into_inner().as_peer_response())
+                        {
+                            act.edge_info = Some(edge_info);
+                            act.send_handshake(ctx);
                         }
                         actix::fut::ready(())
                     })
@@ -949,11 +948,10 @@ impl StreamHandler<Result<Vec<u8>, ReasonForBan>> for PeerActor {
                 ))
                 .into_actor(self)
                 .then(|res, act, ctx| {
-                    match res.map(|f| f.as_network_response()) {
-                        Ok(NetworkResponses::BanPeer(reason_for_ban)) => {
-                            act.ban_peer(ctx, reason_for_ban);
-                        }
-                        _ => {}
+                    if let Ok(NetworkResponses::BanPeer(reason_for_ban)) =
+                        res.map(|f| f.as_network_response())
+                    {
+                        act.ban_peer(ctx, reason_for_ban);
                     }
                     actix::fut::ready(())
                 })

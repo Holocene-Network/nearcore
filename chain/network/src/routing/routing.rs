@@ -547,22 +547,22 @@ mod test {
 
         let mut graph = Graph::new(source.clone());
 
-        assert_eq!(graph.contains_edge(&source, &node0), false);
-        assert_eq!(graph.contains_edge(&source, &node1), false);
-        assert_eq!(graph.contains_edge(&node0, &node1), false);
-        assert_eq!(graph.contains_edge(&node1, &node0), false);
+        assert!(!graph.contains_edge(&source, &node0));
+        assert!(!graph.contains_edge(&source, &node1));
+        assert!(!graph.contains_edge(&node0, &node1));
+        assert!(!graph.contains_edge(&node1, &node0));
 
         graph.add_edge(&node0, &node1);
 
-        assert_eq!(graph.contains_edge(&source, &node0), false);
-        assert_eq!(graph.contains_edge(&source, &node1), false);
-        assert_eq!(graph.contains_edge(&node0, &node1), true);
-        assert_eq!(graph.contains_edge(&node1, &node0), true);
+        assert!(!graph.contains_edge(&source, &node0));
+        assert!(!graph.contains_edge(&source, &node1));
+        assert!(graph.contains_edge(&node0, &node1));
+        assert!(graph.contains_edge(&node1, &node0));
 
         graph.remove_edge(&node1, &node0);
 
-        assert_eq!(graph.contains_edge(&node0, &node1), false);
-        assert_eq!(graph.contains_edge(&node1, &node0), false);
+        assert!(!graph.contains_edge(&node0, &node1));
+        assert!(!graph.contains_edge(&node1, &node0));
 
         assert_eq!(0, graph.total_active_edges() as usize);
         assert_eq!(0, graph.compute_total_active_edges() as usize);
