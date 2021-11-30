@@ -13,7 +13,7 @@ fn build_graph(depth: usize, size: usize) -> Graph {
     let mut graph = Graph::new(source.clone());
 
     for node in nodes.iter().take(size) {
-        graph.add_edge(&source, &node);
+        graph.add_edge(&source, node);
     }
 
     for layer in 0..depth - 1 {
