@@ -672,8 +672,8 @@ mod test {
 
         let mut graph = Graph::new(source.clone());
 
-        for i in 0..3 {
-            graph.add_edge(&source, &nodes[i]);
+        for node in nodes.iter().take(3) {
+            graph.add_edge(&source, &node);
         }
 
         for level in 0..2 {
